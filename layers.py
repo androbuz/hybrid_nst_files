@@ -47,7 +47,7 @@ class TransformerEncoder(layers.Layer):
         return config
         
 
-@keras.saving.register_keras_serializable()
+@keras.utils.register_keras_serializable()
 class PatchEmbedding(layers.Layer):
     def __init__(self, patch_size, projection_dim, **kwargs):
         super().__init__(**kwargs)
