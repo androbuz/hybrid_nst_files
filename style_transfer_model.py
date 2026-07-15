@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras import layers
+from tensorflow.keras import Model
 
 @keras.saving.register_keras_serializable()
 class StyleTransferModel(keras.Model):
