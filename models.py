@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras import Model
+import tensorflow.keras.layers as klayers
+# from tensorflow.keras import Model
 from layers import DecoderBlock
 
 @keras.utils.register_keras_serializable()
@@ -15,7 +16,7 @@ class RefinementDecoder(keras.Model):
         self.decoder_blocks.append(DecoderBlock(filter_configs[0], name="decoder_block_0"))
         self.decoder_blocks.append(DecoderBlock(filter_configs[1], name="decoder_block_1"))
         self.decoder_blocks.append(DecoderBlock(filter_configs[2], name="decoder_block_2"))
-        self.final_conv = layers.Conv2D(3, kernel_size=3, padding='same', activation='sigmoid', name='output_image_conv')
+        self.final_conv = klayers.Conv2D(3, kernel_size=3, padding='same', activation='sigmoid', name='output_image_conv')
 
     def call(self, inputs):
         batch_size = tf.shape(inputs)[0]
@@ -62,8 +63,8 @@ class StyleTransferModel(keras.Model):
         self.style_text_embedding_dim = style_text_embedding_dim
         self.num_patches = num_patches
 
-        self.combine_features_layer = layers.Dense(self.projection_dim, name='combine_features')
-        self.text_to_style_projection = layers.Dense(self.num_patches * self.projection_dim,
+        self.combine_features_layer = klayers.Dense(self.projection_dim, name='combine_features')
+        self.text_to_style_projection = klayers.Dense(self.num_patches * self.projection_dim,
                                                      name="text_to_style_projection_layer")
 
     def call(self, content_img, style_img=None, style_text_embedding=None, training=False):
