@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import Model
 
-@keras.saving.register_keras_serializable()
+@keras.utils.register_keras_serializable()
 class RefinementDecoder(keras.Model):
     def __init__(self, projection_dim, output_image_size, **kwargs):
         super().__init__(**kwargs)
@@ -37,7 +37,7 @@ class RefinementDecoder(keras.Model):
         return config
 
 
-@keras.saving.register_keras_serializable()
+@keras.utils.register_keras_serializable()
 class StyleTransferModel(keras.Model):
     def __init__(self,
                  content_patch_embedder,
