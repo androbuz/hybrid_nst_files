@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import Model
+from layers import DecoderBlock
 
 @keras.utils.register_keras_serializable()
 class RefinementDecoder(keras.Model):
