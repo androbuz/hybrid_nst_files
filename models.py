@@ -1,7 +1,7 @@
 import tensorflow as tf
-from tensorflow import keras
-import tensorflow.keras.layers as klayers
-# from tensorflow.keras import Model
+import keras
+from keras import layers as klayers
+
 from layers import DecoderBlock
 
 @keras.utils.register_keras_serializable()
@@ -92,15 +92,82 @@ class StyleTransferModel(keras.Model):
 
     def get_config(self):
         config = super().get_config()
+    
         config.update({
             "projection_dim": self.projection_dim,
             "style_text_embedding_dim": self.style_text_embedding_dim,
             "num_patches": self.num_patches,
-            "content_patch_embedder": self.content_patch_embedder,
-            "style_patch_embedder": self.style_patch_embedder,
-            "content_encoder": self.content_encoder,
-            "style_encoder": self.style_encoder,
-            "cape_layer": self.cape_layer,
-            "refinement_decoder": self.refinement_decoder,
+    
+            "content_patch_embedder":
+                keras.saving.serialize_keras_object(
+                    self.content_patch_embedder
+                ),
+    
+            "style_patch_embedder":
+                keras.saving.serialize_keras_object(
+                    self.style_patch_embedder
+                ),
+    
+            "content_encoder":
+                keras.saving.serialize_keras_object(
+                    self.content_encoder
+                ),
+    
+            "style_encoder":
+                keras.saving.serialize_keras_object(
+                    self.style_encoder
+                ),
+    
+            "cape_layer":
+                keras.saving.serialize_keras_object(
+                    self.cape_layer
+                ),
+    
+            "refinement_decoder":
+                keras.saving.serialize_keras_object(
+                    self.refinement_decoder
+                ),
         })
+    
         return config
+
+    @classmethod
+    def from_config(cls, config):
+    
+        config["content_patch_embedder"] = (
+            keras.saving.deserialize_keras_object(
+                config["content_patch_embedder"]
+            )
+        )
+    
+        config["style_patch_embedder"] = (
+            keras.saving.deserialize_keras_object(
+                config["style_patch_embedder"]
+            )
+        )
+    
+        config["content_encoder"] = (
+            keras.saving.deserialize_keras_object(
+                config["content_encoder"]
+            )
+        )
+    
+        config["style_encoder"] = (
+            keras.saving.deserialize_keras_object(
+                config["style_encoder"]
+            )
+        )
+    
+        config["cape_layer"] = (
+            keras.saving.deserialize_keras_object(
+                config["cape_layer"]
+            )
+        )
+    
+        config["refinement_decoder"] = (
+            keras.saving.deserialize_keras_object(
+                config["refinement_decoder"]
+            )
+        )
+    
+        return cls(**config)
